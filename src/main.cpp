@@ -7,7 +7,7 @@ int main(int argc, char** argv){
     ros::NodeHandle node;
 
     /* To use: Just instance a Odom class on "bra" namespace. Example bellow */
-                        // Class Name     // NodeHandle
+                        // Robot Name     // NodeHandle
     bra::Odom Odometry1("amanita_augusta", node);
     bra::Odom Odometry2("amanita_severina", node);
 
