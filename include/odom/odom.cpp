@@ -25,7 +25,7 @@ bra::Odom::Odom(std::string robotName, ros::NodeHandle Node): _robotName(robotNa
     _OdomMsg.child_frame_id         = (_robotName + "_pc/base_link");
     _OdomMsg.pose.pose.position.z   = 0;
     _OdomMsg.twist.twist.linear.y = _OdomMsg.twist.twist.linear.z = _OdomMsg.twist.twist.angular.x = 
-                                                                                _OdomMsg.twist.twist.angular.y = 0;
+                                                                        _OdomMsg.twist.twist.angular.y = 0;
     ROS_INFO((_robotName + " Odometry Created").c_str()); 
 }
 
@@ -81,9 +81,9 @@ void bra::Odom::publish(){
     _OdomMsg.pose.pose.position.x = _position[X];
     _OdomMsg.pose.pose.position.y = _position[Y];
     _OdomMsg.pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0,0,_position[TH]);
-    _OdomMsg.twist.twist.linear.x = _velocity[LINEAR];
-    _OdomMsg.twist.twist.angular.z = _velocity[ANGULAR];
-    // Publish Odometry and TF
+    _OdomMsg.twist.twist.linear.x = _velocity2Compute[LAST][LINEAR];
+    _OdomMsg.twist.twist.angular.z = _velocity2Compute[LAST][ANGULAR];
+    // Publish Odometry and TF  
     _Broadcaster.sendTransform(_OdomTransform);
     _OdomPub.publish(_OdomMsg);
 }

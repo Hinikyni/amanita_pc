@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>amanita_augusta</name>
+  <name>amanita</name>
   <version>0.0.0</version>
-  <description>The amanita_augusta package</description>
+  <description>The amanita package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
