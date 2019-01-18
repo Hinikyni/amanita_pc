@@ -15,13 +15,14 @@ namespace bra{
             nav_msgs::Odometry _OdomMsg;
             void publish();
             void compute();
+            void callback(const geometry_msgs::Twist::ConstPtr& msg);
         public:
             Odom(std::string robotName, ros::NodeHandle Node);
-            void callback(const geometry_msgs::Twist::ConstPtr& msg);
         private:
             std::string _robotName;
             double _position[3]; // 2D Coordinates and Angle
-            double _velocity[2]; // Linear and Angular Velocity
+            double _velocity[3]; // Vx, Vy and Angular Velocity
+            double _lastAngle;
             ros::Time _Time[2];
             double _velocity2Compute[2][2]; // New Velocity and Last Velocity  
                                             // Linear and Angular Velocity

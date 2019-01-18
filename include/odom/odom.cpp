@@ -8,7 +8,7 @@
 bra::Odom::Odom(std::string robotName, ros::NodeHandle Node): _robotName(robotName), _Node(Node){
     // Init Variables
     _velocity[LINEAR] = _velocity[ANGULAR] = 0;
-    _position[X] = _position[Y] = _position[TH] = 0;
+    _position[X] = _position[Y] = _position[TH] = _lastAngle = 0;
     _Time[CURRENT] = ros::Time::now();
     _Time[LAST] = ros::Time::now();
     _enable = false;
@@ -52,14 +52,16 @@ void bra::Odom::compute(){
     double deltaPosition[3];
     double deltaTime;
     // Compute Linear and Angular Velocity
-    // Trapezoidal Rule for integration (x(t-dt) + x(t))*dt/2
-    _velocity[LINEAR] = (_velocity2Compute[CURRENT][LINEAR] + _velocity2Compute[LAST][LINEAR])/2;
-    _velocity[ANGULAR] = (_velocity2Compute[CURRENT][ANGULAR] + _velocity2Compute[LAST][ANGULAR])/2;
+    // Trapezoidal Rule for integration (x(t) + x(t-dt))*dt/2
+    _velocity[X] = ((_velocity2Compute[CURRENT][LINEAR] * cos(_position[TH])) + (_velocity2Compute[LAST][LINEAR] * cos(_lastAngle)))/2;
+    _velocity[Y] = ((_velocity2Compute[CURRENT][LINEAR] * sin(_position[TH])) + (_velocity2Compute[LAST][LINEAR] * sin(_lastAngle)))/2;
+    _velocity[TH] = (_velocity2Compute[CURRENT][ANGULAR] + _velocity2Compute[LAST][ANGULAR])/2;
     // Compute Delta Time and Position Variation
     deltaTime = (_Time[CURRENT] - _Time[LAST]).toSec(); // Variation of Time in seconds
-    deltaPosition[X] = _velocity[LINEAR] * cos(_velocity[ANGULAR]) * deltaTime;
-    deltaPosition[Y] = _velocity[LINEAR] * sin(_velocity[ANGULAR]) * deltaTime;
-    deltaPosition[TH] = _velocity[ANGULAR] * deltaTime;
+    deltaPosition[X] = _velocity[X] * deltaTime;
+    deltaPosition[Y] = _velocity[Y] * deltaTime;
+    deltaPosition[TH] = _velocity[TH] * deltaTime;
+    _lastAngle = _position[TH];
     // Add Position Variation into Position
     _position[X] += deltaPosition[X];
     _position[Y] += deltaPosition[Y];

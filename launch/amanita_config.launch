@@ -1,0 +1,13 @@
+<launch>
+    <node pkg="amanita" type="amanita_node" name="amanita_node" output="screen"></node>
+    <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen" args="/dev/ttyACM0"></node>
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" ns="amanita_cecilia_pc">
+        <param name="controller_frequency" value="8"/>
+        <rosparam file="$(find amanita)/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+        <rosparam file="$(find amanita)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find amanita)/config/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find amanita)/config/global_costmap_params.yaml" command="load" /> 
+        <rosparam file="$(find amanita)/config/base_local_planner_params.yaml" command="load" />
+    </node>
+    <node pkg="rviz" type="rviz" name="rviz" output="screen"></node>
+</launch>

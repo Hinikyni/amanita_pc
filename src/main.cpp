@@ -8,7 +8,7 @@ int main(int argc, char** argv){
 
     /* To use: Just instance a Odom class on "bra" namespace. Example bellow */
                         // Robot Name     // NodeHandle
-    bra::Odom Odometry1("amanita_cecilia", node);
+    bra::Odom Odometry("amanita_cecilia", node);
 
     ros::spin();
 }

@@ -84,5 +84,5 @@ int main(int argc, char** argv)
   ros::NodeHandle nh;
 
   RobotDriver driver(nh);
-  driver.driveForwardOdom(1);
+  driver.driveForwardOdom(0.63);
 }
