@@ -7,6 +7,7 @@ add_compile_options(-std=c++11)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  actionlib
   geometry_msgs
   move_base_msgs
   move_base
@@ -110,7 +111,7 @@ roslaunch_add_file_check(launch)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES odom
+  LIBRARIES odom waypoint
   CATKIN_DEPENDS geometry_msgs move_base_msgs nav_msgs roscpp std_msgs tf
 #  DEPENDS system_lib
 )
@@ -126,7 +127,8 @@ include_directories(
 )
 
 ## Declare a C++ library
-  add_library(odom include/odom/odom.cpp )
+  add_library(odom include/odom/odom.cpp)
+  add_library(waypoint include/waypoint/waypoint.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -138,6 +140,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
  add_executable(${PROJECT_NAME}_node src/main.cpp include/odom/odom.cpp )
  add_executable(${PROJECT_NAME}_goal src/simplegoal.cpp)
+ add_executable(${PROJECT_NAME}_waypoint src/move_base_waypoint.cpp include/waypoint/waypoint.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -150,10 +153,13 @@ include_directories(
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(${PROJECT_NAME}_node
+  target_link_libraries(${PROJECT_NAME}_node
     ${catkin_LIBRARIES}
  )
   target_link_libraries(${PROJECT_NAME}_goal
+    ${catkin_LIBRARIES}
+ )
+  target_link_libraries(${PROJECT_NAME}_waypoint
     ${catkin_LIBRARIES}
  )
 

@@ -41,16 +41,11 @@ public:
     geometry_msgs::Twist base_cmd;
     //the command will be to go forward at 0.25 m/s
     base_cmd.linear.y = base_cmd.angular.z = 0;
-    base_cmd.linear.x = 0.25;
-    
+    base_cmd.linear.x = 0.15;
+    cmd_vel_pub_.publish(base_cmd);
     ros::Rate rate(10.0);
     bool done = false;
-    while (!done && nh_.ok())
-    {
-      //send the drive command
-      cmd_vel_pub_.publish(base_cmd);
-      rate.sleep();
-      //get the current transform
+    while (!done && nh_.ok()) {
       try
       {
         listener_.lookupTransform("amanita_cecilia_pc/base_link", "amanita_cecilia_pc/odom", 
@@ -62,11 +57,10 @@ public:
         break;
       }
       //see how far we've traveled
-      tf::Transform relative_transform = 
-        start_transform.inverse() * current_transform;
+      tf::Transform relative_transform = start_transform.inverse() * current_transform;
       double dist_moved = relative_transform.getOrigin().length();
         std::cout << dist_moved << std::endl;
-      if(dist_moved > distance) done = true;
+      if(dist_moved >= distance) done = true;
     }
     if (done) {
         base_cmd.linear.x = 0.0;
@@ -84,5 +78,5 @@ int main(int argc, char** argv)
   ros::NodeHandle nh;
 
   RobotDriver driver(nh);
-  driver.driveForwardOdom(0.63);
+  driver.driveForwardOdom(1.00);
 }

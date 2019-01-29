@@ -62,7 +62,7 @@ void bra::Odom::compute(){
     deltaPosition[Y] = _velocity[Y] * deltaTime;
     deltaPosition[TH] = _velocity[TH] * deltaTime;
     _lastAngle = _position[TH];
-    // Add Position Variation into Position
+    // Add Position Variation into _position
     _position[X] += deltaPosition[X];
     _position[Y] += deltaPosition[Y];
     _position[TH] += deltaPosition[TH];

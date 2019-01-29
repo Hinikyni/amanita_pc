@@ -27,7 +27,6 @@ namespace bra{
             double _velocity2Compute[2][2]; // New Velocity and Last Velocity  
                                             // Linear and Angular Velocity
             bool _enable;
-            const double _degree = 3.1415/180;
             enum {LINEAR, ANGULAR};
             enum {X, Y, TH};
             enum {CURRENT, LAST};

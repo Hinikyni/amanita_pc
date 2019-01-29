@@ -8,7 +8,7 @@ lTime = 0
 rVel = 0.0
 rTime = 0
 reference = 0.0
-arquivo = open('/home/teo/Documentos/CIMATEC/Iniciacao/Amanita_Producao/max_values/velocity_meansure_0_to_-1.txt', 'w')
+arquivo = open('/home/teo/Documentos/CIMATEC/Iniciacao/Amanita_Producao/step_response/step_response_3', 'w')
 twice = 0
 
 def lcallback(data):
@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
     print("Iniciado..")
     
-    while(twice != 3):
+    while(twice != 4):
         if lTime == 0 or rTime == 0:
             continue
 
